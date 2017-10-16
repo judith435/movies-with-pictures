@@ -1,0 +1,45 @@
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+body {
+  width: 95%;
+  margin: auto;
+}
+h1,
+h3 {
+  text-align: center;
+  margin: 40px 0px;
+}
+.form-control {
+  display: inline-block;
+  width: auto;
+  min-width: 60%;
+}
+#CreateUpdateDiv {
+  margin: 0 auto;
+}
+#tblCUD td {
+  border-top: none;
+  margin-bottom: 5px;
+}
+#tblCUD td .title {
+  background-color: cyan;
+  width: 20%;
+  font-weight: 700;
+}
+#tblCUD td .content {
+  background-color: yellow;
+  width: 45%;
+}
+#tblCUD td .error-td {
+  background-color: lightgreen;
+  width: 35%;
+}
+#frmCU label.error {
+  background: url("../images/error.gif") no-repeat left top;
+  padding-left: 14px;
+  font-weight: bold;
+  color: #EA5200;
+}

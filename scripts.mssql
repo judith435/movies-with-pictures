@@ -1,0 +1,226 @@
+-- MySQL Workbench Forward Engineering
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
+
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+-- -----------------------------------------------------
+-- Schema movie_project
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- Schema movie_project
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `movie_project` DEFAULT CHARACTER SET latin1 ;
+USE `movie_project` ;
+
+-- -----------------------------------------------------
+-- Table `movie_project`.`directors`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `movie_project`.`directors` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(50) NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 28
+DEFAULT CHARACTER SET = latin1;
+
+
+-- -----------------------------------------------------
+-- Table `movie_project`.`movies`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `movie_project`.`movies` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(50) NOT NULL,
+  `d_id` INT(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_movies_directors_idx` (`d_id` ASC),
+  CONSTRAINT `fk_movies_directors`
+    FOREIGN KEY (`d_id`)
+    REFERENCES `movie_project`.`directors` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+AUTO_INCREMENT = 75
+DEFAULT CHARACTER SET = latin1;
+
+USE `movie_project` ;
+
+-- -----------------------------------------------------
+-- procedure check_director_exists
+-- -----------------------------------------------------
+
+DELIMITER $$
+USE `movie_project`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `check_director_exists`(IN director_name VARCHAR(50))
+BEGIN
+
+	SELECT id FROM directors WHERE name = director_name;
+    
+END$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------
+-- procedure check_movie_exists
+-- -----------------------------------------------------
+
+DELIMITER $$
+USE `movie_project`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `check_movie_exists`(IN movie_name VARCHAR(50),  in director_id int )
+BEGIN
+
+	SELECT id FROM movies WHERE name = movie_name  AND d_id = director_id;
+    
+END$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------
+-- procedure delete_director
+-- -----------------------------------------------------
+
+DELIMITER $$
+USE `movie_project`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_director`(IN director_id Int)
+BEGIN
+
+    delete from  `movie_project`.`directors`
+	where id = director_id;   
+    
+END$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------
+-- procedure delete_movie
+-- -----------------------------------------------------
+
+DELIMITER $$
+USE `movie_project`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_movie`(IN movie_id Int)
+BEGIN
+
+    delete from  `movie_project`.`movies`
+	where id = movie_id;   
+    
+END$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------
+-- procedure get_directors
+-- -----------------------------------------------------
+
+DELIMITER $$
+USE `movie_project`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_directors`()
+BEGIN
+
+	SELECT   id as director_id,
+			 name as director_name
+	FROM directors
+    order by  name;
+    
+END$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------
+-- procedure get_movies
+-- -----------------------------------------------------
+
+DELIMITER $$
+USE `movie_project`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_movies`()
+BEGIN
+
+	SELECT   movies.id as movie_id,
+			 movies.name as movie_name,
+			 directors.id as director_id,
+             directors.name as director_name
+	FROM movies
+	inner join directors
+	on movies.d_id = directors.id
+    order by  director_name, movie_name;
+    
+END$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------
+-- procedure insert_director
+-- -----------------------------------------------------
+
+DELIMITER $$
+USE `movie_project`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_director`(IN director_name VARCHAR(50))
+BEGIN
+
+    INSERT INTO `movie_project`.`directors`(`name`) VALUES (director_name);    
+    
+END$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------
+-- procedure insert_movie
+-- -----------------------------------------------------
+
+DELIMITER $$
+USE `movie_project`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_movie`(IN movie_name VARCHAR(50), IN director_id Int )
+BEGIN
+
+    INSERT INTO `movie_project`.`movies`
+	(`name`,
+	 `d_id`)
+	VALUES
+	(movie_name,
+	 director_id);    
+    
+END$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------
+-- procedure update_director
+-- -----------------------------------------------------
+
+DELIMITER $$
+USE `movie_project`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `update_director`(IN director_id Int, IN director_name VARCHAR(50))
+BEGIN
+
+    update `movie_project`.`directors`
+	set `name` = director_name 
+	where id = director_id;   
+    
+END$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------
+-- procedure update_movie
+-- -----------------------------------------------------
+
+DELIMITER $$
+USE `movie_project`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `update_movie`(IN movie_id Int, IN movie_name VARCHAR(50), IN director_id Int )
+BEGIN
+
+    update `movie_project`.`movies`
+	set `name` = movie_name,
+		`d_id` = director_id
+	where id = movie_id;   
+    
+END$$
+
+DELIMITER ;
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
