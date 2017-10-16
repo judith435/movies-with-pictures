@@ -37,7 +37,7 @@ var generalMovie = (function() {
             }
 
             for(let i=0; i < directors.length; i++) {
-                 $("#DirectorDDL").append(new Option(directors[i].name, directors[i].id));
+                 $("#DirectorDDL").append(new Option(directors[i].director_name, directors[i].director_id));
             }
     }
      

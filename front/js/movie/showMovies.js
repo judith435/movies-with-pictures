@@ -30,8 +30,8 @@ var showMovies = (function() {
                 var moviesArray = [];
                 var mo = MovieObject();
                 for (let i = 0; i < data.length; i++) {
-                    moviesArray.push(new mo.Movie(data[i].id, 
-                                                  data[i].name,
+                    moviesArray.push(new mo.Movie(data[i].movie_id, 
+                                                  data[i].movie_name,
                                                   data[i].director_id,
                                                   data[i].director_name
                                             ));
