@@ -59,15 +59,30 @@ var generalMovie = (function() {
                 verb = "DELETE";
                 break;
         }
-    
-        var ajaxData = $('form').serialize();
+        var ajaxData =  new FormData($("#frmCU")[0]);//$('form').serialize();
         if (app.debugMode) {
             console.log(ajaxData);
         }
+
+        // $( '#my-form' )
+        // .submit( function( e ) {
+        //   $.ajax( {
+        //     url: 'http://host.com/action/',
+        //     type: 'POST',
+        //     data: new FormData( this ),
+        //     processData: false,
+        //     contentType: false
+        //   } );
+        //   e.preventDefault();
+        // } );
+
         $.ajax({
             type: verb,
             url:  app.movieApi,
-            data:  ajaxData,
+           // data:  ajaxData,
+            data: $('form').serialize(), // new FormData( this ),
+            // processData: false,
+            // contentType: false,
             success: function(data){
                 if (app.debugMode) {
                     console.log("movieApi response");

@@ -8,7 +8,13 @@
     function exception_handler($exception) {
         ErrorHandling::HandleError($exception); 
     }
-      
+    
+    $target_dir = "uploads/";
+    $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+    $uploadOk = 1;
+    $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
+
+    
     $method = $_SERVER['REQUEST_METHOD']; // verb
     $params = []; //contains data sent to server from client in REST protocol
 
