@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.min.js"></script>
+    <script type="text/javascript">
+        $(function() {            
+          $('#fileUploadForm').ajaxForm({                 
+            beforeSubmit: ShowRequest,
+            success: SubmitSuccesful,
+            error: AjaxError                               
+          });                                    
+        });            
+
+        function ShowRequest(formData, jqForm, options) {
+          var queryString = $.param(formData);
+          alert('BeforeSend method: \n\nAbout to submit: \n\n' + queryString);
+          return true;
+        }
+
+        function AjaxError() {
+          alert("An AJAX error occured.");
+        }
+
+        function SubmitSuccesful(responseText, statusText) {        
+          alert("SuccesMethod:\n\n" + responseText);
+        }    
+    </script>
+</head>
+<body>                                                                  
+    <form id="fileUploadForm" method="POST" action="testUploadServerAjax.php" enctype="multipart/form-data">
+      <input type="text" name="FileName" />
+      <input type="file" id="postedFile" name="posted_file" />
+      <input type="submit" value="Submit" />
+    </form>
+</body>
+</html>
+<!-- <html>
+    <head>
+        <title>Test file Upload</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>  
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.min.js"></script>
+        </head>
+    <form name="imageform" id="imageform" action="jqueryimageupload.php" method="post">
+    <input type="file" name="resim" id="img" onchange="ImageUpload()" />
+    <input type="hidden" name="action" value="imageup" />
+    </form>
+     <script language="JavaScript">  
+        function ImageUpload() {
+            $("#return").show();
+            $("#return").html('');
+            $("#return").html('<img src="images/load2.gif" alt="Uploading...."/> wait, uploading...');
+            $("#imageform").ajaxForm({
+                target: '#return',
+                success: function() {
+                    $("#return").fadeOut(10000);
+                }
+            }).submit();
+
+        }  
+
+        $('#form').submit(function() {
+            var img=$('#image').val();
+            var forms=($(this).serialize());
+           $.ajax({
+                type:"POST",          
+                url: "do.php?do=upload",
+                data:forms+'&r='+encodeURIComponent(img),
+                success: function(result){  } 
+
+           });  
+        });   
+</script>
+</html> -->
