@@ -90,19 +90,33 @@ var generalMovie = (function() {
         //   });
 
         //var formData = new FormData(this);
-        var formData = $('form').serialize();
+       // var formData = $('form').serialize();
+        var form_data = $('form').serialize();
         var file_data = $('#movieImage').prop('files')[0]; 
-        var tala = JSON.stringify(file_data);
-        formData.append('movie_image', tala);
-        var hook = 6;
+        var formData = new FormData();    
+        formData.append('movie_image', file_data);
+        //formData.append('frmData', formi);
+        //"movie_name=gagagag&director_id=13&ctrl=movie&duplicate_movie="
+        // formData.append('movie_name', "gagagag");
+        // formData.append('director_id', "13");
+        // formData.append('ctrl', "movie");
+        // formData.append('duplicate_movie', "");
+        var form_data_pairs = JSON.parse('{"' + decodeURI(form_data.replace(/&/g, "\",\"").replace(/=/g,"\":\"")) + '"}')
+        for (var key in form_data_pairs) {
+            if (form_data_pairs.hasOwnProperty(key)) {
+              //  console.log(key + " -> " + form_data_pairs[key]);
+                formData.append(key, form_data_pairs[key]);
+            }
+        }
+        var hook = 6;  
          $.ajax({
             type: verb,
             url:  app.movieApi,
             data: formData,
-            mimeType:"multipart/form-data",
+            //mimeType:"multipart/form-data",
             contentType: false,
-            cache: false,
-            processData:false,
+            //cache: false,
+            processData: false,
 
             success: function(data){
                 if (app.debugMode) {
