@@ -60,50 +60,20 @@ var generalMovie = (function() {
                 break;
         }
 
-        // var img =  $('#movieImage').val();
-        // var form = $('form').serialize();
-        // ajaxData = form + '&movie_image=' + encodeURIComponent(img);
-        // var lala = 9;
-        // if (app.debugMode) {
-        //     console.log(ajaxData);
-        // }
-        // $(function() {            
-        //     $('#fileUploadForm').ajaxForm({                 
-        //       beforeSubmit: ShowRequest,
-        //       success: SubmitSuccesful,
-        //       error: AjaxError                               
-        //     });                                    
-        //   });  
-//$('#frmCU').ajaxForm({ 
-        // form.ajaxForm({
-        //     data: { data: fd }, 
-        //     type: verb,
-        //     url:app.movieApi,
-        //     beforeSubmit:function() { 
-        //         var queryString = $.param(formData);
-        //         alert('BeforeSend method: \n\nAbout to submit: \n\n' + queryString);
-        //         return true;
-        //           } ,
-        //     beforeSend: function(e) {},
-        //     uploadProgress: function(event, position, total, percentComplete) {},
-        //     complete: function(data) {}
-        //   });
+        var img =  $('#movieImage').val();
+        var form = $('form').serialize();
+        ajaxData = form + '&movie_image=' + encodeURIComponent(img);
+        var lala = 9;
+        if (app.debugMode) {
+            console.log(ajaxData);
+        }
 
-        //var formData = new FormData(this);
-        var formData = $('form').serialize();
-        var file_data = $('#movieImage').prop('files')[0]; 
-        var tala = JSON.stringify(file_data);
-        formData.append('movie_image', tala);
-        var hook = 6;
-         $.ajax({
+        $.ajax({
             type: verb,
             url:  app.movieApi,
-            data: formData,
-            mimeType:"multipart/form-data",
-            contentType: false,
-            cache: false,
-            processData:false,
-
+            data: ajaxData,
+            // processData: false,
+            // contentType: false,
             success: function(data){
                 if (app.debugMode) {
                     console.log("movieApi response");
@@ -139,4 +109,3 @@ var generalMovie = (function() {
         LoadDirectors : LoadDirectors
     }
 })();
-
