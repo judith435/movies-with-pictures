@@ -18,6 +18,8 @@
 --END
 
 
+
+
 -- MySQL Workbench Forward Engineering
 
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
@@ -64,7 +66,7 @@ CREATE TABLE IF NOT EXISTS `movie_project`.`movies` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-AUTO_INCREMENT = 31
+AUTO_INCREMENT = 43
 DEFAULT CHARACTER SET = latin1;
 
 USE `movie_project` ;
@@ -204,7 +206,10 @@ BEGIN
 	(movie_name,
 	 director_id);    
     
-    select new_movie_id = LAST_INSERT_ID();
+    SELECT LAST_INSERT_ID()
+    INTO new_movie_id;
+SELECT new_movie_id;
+    
     
 END$$
 
