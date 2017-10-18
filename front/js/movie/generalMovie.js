@@ -60,27 +60,28 @@ var generalMovie = (function() {
                 break;
         }
 
-
-        var formData = new FormData();    
-        var form_data = $('form').serialize();
-        var form_data_pairs = JSON.parse('{"' + decodeURI(form_data.replace(/&/g, "\",\"").replace(/=/g,"\":\"")) + '"}')
-        for (var key in form_data_pairs) {
-            if (form_data_pairs.hasOwnProperty(key)) {
-              //  console.log(key + " -> " + form_data_pairs[key]);
-                formData.append(key, form_data_pairs[key]);
+        var formData = "";
+        if(htmlTitle != "Delete Movie"){
+            formData = new FormData();    
+            var form_data = $('form').serialize();
+            var form_data_pairs = JSON.parse('{"' + decodeURI(form_data.replace(/&/g, "\",\"").replace(/=/g,"\":\"")) + '"}')
+            for (var key in form_data_pairs) {
+                if (form_data_pairs.hasOwnProperty(key)) {
+                //  console.log(key + " -> " + form_data_pairs[key]);
+                    formData.append(key, form_data_pairs[key]);
+                }
             }
-        }
-
-        var lol = $('#movieImage').length;
-        var tot =  $("#movieImage").val();
-        //movie image upload only exists in create/update movie
-        if(htmlTitle != "Delete Movie"){ 
+            
+            //movie image upload only exists in create/update movie
             if($("#movieImage").val()){ //movie image was selected
                 var file_data = $('#movieImage').prop('files')[0]; 
                 formData.append('movie_image', file_data);
             }        
-        }    
-
+        }
+        else {
+            formData = $('form').serialize();
+        }
+    
         var hook =5;
 
         $.ajax({

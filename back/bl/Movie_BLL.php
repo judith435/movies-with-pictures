@@ -24,11 +24,17 @@
                 $applicationError =  "movie with same name & director already exists - movie #" . $movie["id"];
                 return;
             }
+
+            $movieID = 0;
             if ($method == "Update") {  //for update must add movie_id as first parameter
                     array_unshift($spParms, new PDO_Parm("movie_id", $params["movie_id"], 'integer'));
             }
+            else {  //for insert  must add new_movie_id as last parameter
+                array_push($spParms, new PDO_Parm("new_movie_id", $movieID, 'integer'));
+            }
             $spName = $method == "Create" ? 'insert_movie' : 'update_movie';
             $movieID = parent::get($this->get_dbName(), $spName, $spParms);
+            $shook = $movieID->fetch();
             $hook = 5;
         }
 

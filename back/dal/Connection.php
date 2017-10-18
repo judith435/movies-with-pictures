@@ -53,6 +53,7 @@
             $stmt = $pdo->prepare($sql);
             foreach ($parms as  $parm) { 
                 $stmt->bindValue(':' . $parm->getID() , $parm->getValue(), $parm->getType());
+               // $stmt->bind_param(':' . $parm->getID() , $parm->getValue(), $parm->getType());
             }
             $stmt->execute();
             return $stmt;

@@ -1,3 +1,23 @@
+--CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_movie`(IN movie_name VARCHAR(50), 
+--														   IN director_id Int,
+--                                                           OUT new_movie_id Int)
+--BEGIN
+--
+ --   INSERT INTO `movie_project`.`movies`
+--	(`name`,
+--	 `d_id`)
+--	VALUES
+--	(movie_name,
+--	 director_id);    
+---    
+--    SELECT LAST_INSERT_ID()
+--    INTO new_movie_id;
+----
+ --   
+--    
+--END
+
+
 -- MySQL Workbench Forward Engineering
 
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
@@ -25,7 +45,7 @@ CREATE TABLE IF NOT EXISTS `movie_project`.`directors` (
   `name` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 28
+AUTO_INCREMENT = 24
 DEFAULT CHARACTER SET = latin1;
 
 
@@ -44,7 +64,7 @@ CREATE TABLE IF NOT EXISTS `movie_project`.`movies` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-AUTO_INCREMENT = 75
+AUTO_INCREMENT = 31
 DEFAULT CHARACTER SET = latin1;
 
 USE `movie_project` ;
@@ -172,7 +192,9 @@ DELIMITER ;
 
 DELIMITER $$
 USE `movie_project`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_movie`(IN movie_name VARCHAR(50), IN director_id Int )
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_movie`(IN movie_name VARCHAR(50), 
+														   IN director_id Int,
+                                                           OUT new_movie_id Int)
 BEGIN
 
     INSERT INTO `movie_project`.`movies`
@@ -181,6 +203,8 @@ BEGIN
 	VALUES
 	(movie_name,
 	 director_id);    
+    
+    select new_movie_id = LAST_INSERT_ID();
     
 END$$
 
