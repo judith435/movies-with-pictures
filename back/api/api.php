@@ -3,15 +3,15 @@
     require_once 'DirectorApi.php';
     require_once '../share/ErrorHandling.php';
     
-    define ('SITE_ROOT', realpath(dirname(__FILE__)));
-    $siteRoot = substr(SITE_ROOT, 0, strrpos(SITE_ROOT,"\\"));
-    
     //define error handling for site
     set_exception_handler('exception_handler');
     function exception_handler($exception) {
         ErrorHandling::HandleError($exception); 
     }
     
+    define ('SITE_ROOT', realpath(dirname(__FILE__)));
+    $siteRoot = substr(SITE_ROOT, 0, strrpos(SITE_ROOT,"\\"));
+
     if (isset($_FILES["movie_image"])) {
         $target_dir = "\\uploads\\";
         $target_file = $siteRoot . $target_dir . basename($_FILES["movie_image"]["name"]);

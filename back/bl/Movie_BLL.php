@@ -28,7 +28,8 @@
                     array_unshift($spParms, new PDO_Parm("movie_id", $params["movie_id"], 'integer'));
             }
             $spName = $method == "Create" ? 'insert_movie' : 'update_movie';
-            parent::update($this->get_dbName(), $spName, $spParms);
+            $movieID = parent::get($this->get_dbName(), $spName, $spParms);
+            $hook = 5;
         }
 
         public function check_movie_exists($params) {

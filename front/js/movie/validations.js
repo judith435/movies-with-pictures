@@ -20,9 +20,9 @@ $(document).ready(function () {
       director_id: {
         required: true
       },
-      // duplicate_movie: {  
-      //     movie_already_exists: true
-      // },
+      duplicate_movie: {  
+          movie_already_exists: true
+      },
     },
     messages: {
         movie_name: "No movie name specified",

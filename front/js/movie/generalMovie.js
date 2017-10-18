@@ -60,47 +60,9 @@ var generalMovie = (function() {
                 break;
         }
 
-        // var img =  $('#movieImage').val();
-        // var form = $('form').serialize();
-        // ajaxData = form + '&movie_image=' + encodeURIComponent(img);
-        // var lala = 9;
-        // if (app.debugMode) {
-        //     console.log(ajaxData);
-        // }
-        // $(function() {            
-        //     $('#fileUploadForm').ajaxForm({                 
-        //       beforeSubmit: ShowRequest,
-        //       success: SubmitSuccesful,
-        //       error: AjaxError                               
-        //     });                                    
-        //   });  
-//$('#frmCU').ajaxForm({ 
-        // form.ajaxForm({
-        //     data: { data: fd }, 
-        //     type: verb,
-        //     url:app.movieApi,
-        //     beforeSubmit:function() { 
-        //         var queryString = $.param(formData);
-        //         alert('BeforeSend method: \n\nAbout to submit: \n\n' + queryString);
-        //         return true;
-        //           } ,
-        //     beforeSend: function(e) {},
-        //     uploadProgress: function(event, position, total, percentComplete) {},
-        //     complete: function(data) {}
-        //   });
 
-        //var formData = new FormData(this);
-       // var formData = $('form').serialize();
-        var form_data = $('form').serialize();
-        var file_data = $('#movieImage').prop('files')[0]; 
         var formData = new FormData();    
-        formData.append('movie_image', file_data);
-        //formData.append('frmData', formi);
-        //"movie_name=gagagag&director_id=13&ctrl=movie&duplicate_movie="
-        // formData.append('movie_name', "gagagag");
-        // formData.append('director_id', "13");
-        // formData.append('ctrl', "movie");
-        // formData.append('duplicate_movie', "");
+        var form_data = $('form').serialize();
         var form_data_pairs = JSON.parse('{"' + decodeURI(form_data.replace(/&/g, "\",\"").replace(/=/g,"\":\"")) + '"}')
         for (var key in form_data_pairs) {
             if (form_data_pairs.hasOwnProperty(key)) {
@@ -108,8 +70,20 @@ var generalMovie = (function() {
                 formData.append(key, form_data_pairs[key]);
             }
         }
-        var hook = 6;  
-         $.ajax({
+
+        var lol = $('#movieImage').length;
+        var tot =  $("#movieImage").val();
+        //movie image upload only exists in create/update movie
+        if(htmlTitle != "Delete Movie"){ 
+            if($("#movieImage").val()){ //movie image was selected
+                var file_data = $('#movieImage').prop('files')[0]; 
+                formData.append('movie_image', file_data);
+            }        
+        }    
+
+        var hook =5;
+
+        $.ajax({
             type: verb,
             url:  app.movieApi,
             data: formData,
