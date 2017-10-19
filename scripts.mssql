@@ -208,8 +208,7 @@ BEGIN
     
     SELECT LAST_INSERT_ID()
     INTO new_movie_id;
-SELECT new_movie_id;
-    
+    SELECT new_movie_id;
     
 END$$
 

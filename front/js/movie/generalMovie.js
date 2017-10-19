@@ -61,7 +61,7 @@ var generalMovie = (function() {
         }
 
         var formData = "";
-        if(htmlTitle != "Delete Movie"){
+        if(htmlTitle == "Create Movie"){
             formData = new FormData();    
             var form_data = $('form').serialize();
             var form_data_pairs = JSON.parse('{"' + decodeURI(form_data.replace(/&/g, "\",\"").replace(/=/g,"\":\"")) + '"}')
@@ -78,7 +78,7 @@ var generalMovie = (function() {
                 formData.append('movie_image', file_data);
             }        
         }
-        else {
+        else { //delete/update movie - movie image upload only works for create but not yet for update
             formData = $('form').serialize();
         }
     

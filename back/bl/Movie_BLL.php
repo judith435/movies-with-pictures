@@ -34,8 +34,7 @@
             }
             $spName = $method == "Create" ? 'insert_movie' : 'update_movie';
             $movieID = parent::get($this->get_dbName(), $spName, $spParms);
-            $shook = $movieID->fetch();
-            $hook = 5;
+            return $movieID->fetch();
         }
 
         public function check_movie_exists($params) {
@@ -51,6 +50,7 @@
             array_push($spParms, new PDO_Parm("movie_id", $params["movie_id"], 'integer'));
             return parent::get($this->get_dbName(), 'delete_movie', $spParms);
         }
+
     }
     
 ?>

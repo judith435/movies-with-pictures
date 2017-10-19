@@ -38,4 +38,15 @@
             fwrite($ErrorFile, $txt);
             fclose($ErrorFile);        
         }
+
+        public  static function LogFileUploadError($Error) {
+            
+            $ErrorFile = fopen("../ErrorLog.txt", "a") or die("Unable to open file!");
+            $txt = "******************************************************************************************************************************" .PHP_EOL;
+            fwrite($ErrorFile, $txt);
+            $txt = "Error occured at " . date('Y-m-d H:i:s') .PHP_EOL;
+            fwrite($ErrorFile, $Error);
+            fclose($ErrorFile);        
+        }
+
     }
