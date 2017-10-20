@@ -39,6 +39,7 @@ var showMovies = (function() {
                 $.ajax('../../templates/movie/movie-template.html').done(function(data) {
                     $("#movies").html("");
                     //after loading movies table row template append data from 1 movie object to each row
+                    var movie_link = "http://localhost/joint/movies-with-pictures/back/uploads/image_for_movie_id_"
                     for(let i=0; i < moviesArray.length; i++) {
                         let template = data;
                         template = template.replace("{{movie_id}}", moviesArray[i].movie_id);
@@ -46,6 +47,21 @@ var showMovies = (function() {
                         template = template.replace("{{director_id}}", moviesArray[i].director_id);
                         template = template.replace("{{director_name}}", moviesArray[i].director_name);
                         $('#movies').append(template);
+                        $.ajax({
+                            type: 'HEAD',
+                            url: 'http://localhost/joint/movies-with-pictures/back/uploads/image_for_movie_id_' 
+                                    +  moviesArray[i].movie_id +'.jpg',
+                            success: function() {
+                                $("tbody  > tr  #linkMovieImage").eq(i).attr("href", movie_link +  moviesArray[i].movie_id + ".jpg");
+                            },
+                            error: function() {
+                               // $("tbody  > tr  #linkMovieImage").eq(i).hide();
+                               $("tbody  > tr  #linkMovieImage").eq(i).on("click", function (e) {
+                                    e.preventDefault();
+                                });
+                                $("tbody  > tr  #linkMovieImage").eq(i).text("no image found for movie"); 
+                            }
+                        });
                     }
                 });
         },
