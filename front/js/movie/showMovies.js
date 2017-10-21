@@ -51,8 +51,19 @@ var showMovies = (function() {
                             type: 'HEAD',
                             url: 'http://localhost/joint/movies-with-pictures/back/uploads/image_for_movie_id_' 
                                     +  moviesArray[i].movie_id +'.jpg',
-                            success: function() {
-                                $("tbody  > tr  #linkMovieImage").eq(i).attr("href", movie_link +  moviesArray[i].movie_id + ".jpg");
+                            success: function() {  
+                               // $("tbody  > tr  #linkMovieImage").eq(i).attr("href", movie_link +  moviesArray[i].movie_id + ".jpg");
+                              // $('#linkMovieImage').attr('data-target', "#modalMovieImage" + moviesArray[i].movie_id);
+                               var modal_movie_image = "modalMovieImage" + moviesArray[i].movie_id;
+                               console.log("modal_movie_image = " + modal_movie_image);
+                               var b = document.getElementById("linkMovieImage"); 
+                               b.setAttribute("data-target",  "#" + modal_movie_image);
+                               $('#linkMovieImage').attr("data-target", "#" + modal_movie_image);
+                               $('#modalMovieImage').attr('id', modal_movie_image);
+                               $("tbody  > tr  #imgMovieImage").eq(i).attr("src", movie_link +  moviesArray[i].movie_id + ".jpg");
+                                $("tbody  > tr  #modalTitleMovieImage").eq(i)
+                                .text("Movie ID: " + moviesArray[i].movie_id + "    Movie Name: " + moviesArray[i].movie_name +
+                                      "    Director ID: " + moviesArray[i].director_id + "    Director Name: " + moviesArray[i].director_name);
                             },
                             error: function() {
                                // $("tbody  > tr  #linkMovieImage").eq(i).hide();
