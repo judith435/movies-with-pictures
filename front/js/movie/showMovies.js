@@ -75,7 +75,7 @@ var showMovies = (function() {
                                                     success: function() {  
                                                         buildMovieImageLink(i, moviesArray[i], movie_link,'.gif');
                                                         },
-                                                    error: function() {//no movie image found under nay possible suffix
+                                                    error: function() {//no movie image found under any possible extension
                                                         
                                                     // $("tbody  > tr  > td.movie-image-link").eq(i).text("no image found for movie");                     
                                                     }
@@ -100,12 +100,12 @@ var showMovies = (function() {
         });
     }
 
-    function buildMovieImageLink(tableRowNumber, movieRow, movie_link, imageSuffix)
+    function buildMovieImageLink(tableRowNumber, movieRow, movie_link, imageExtension)
     {
         var movieID =  movieRow.movie_id;
         var movieTitleMV = "Movie ID: " + movieRow.movie_id + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Movie Name: " + movieRow.movie_name;
         var movieTitleDIR = "Director ID: " + movieRow.director_id + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Director Name: " + movieRow.director_name;
-        var link_button =  '<a id="linkMovieImage' + movieID + '" data-toggle="modal" data-target="#modalMovieImage' + movieID + '" >View Movie Image</a>';
+        var link_button =  '<a href="#" id="linkMovieImage' + movieID + '" data-toggle="modal" data-target="#modalMovieImage' + movieID + '" >View Movie Image</a>';
         var modal = '<div id="modalMovieImage' + movieID + '" class="modal fade" role="dialog">';    
         modal +=         '<div class="modal-dialog"><div class="modal-content">'; 
         modal +=             '<div class="modal-header">'; 
@@ -114,7 +114,7 @@ var showMovies = (function() {
         modal +=                 '<h5 class="modal-title">' + movieTitleDIR + '</h5>'; 
         modal +=             '</div>';
         modal +=             '<div class="modal-body">';
-        modal +=                 '<img class="img-responsive" src="' + movie_link +  movieID + imageSuffix + '">'; 
+        modal +=                 '<img class="img-responsive" src="' + movie_link +  movieID + imageExtension + '">'; 
         modal +=             '</div>'; 
         modal +=    '</div></div></div>';
         $("tbody  > tr  > td.movie-image-link").eq(tableRowNumber).append(link_button);

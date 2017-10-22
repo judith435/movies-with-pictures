@@ -20,6 +20,9 @@ $(document).ready(function () {
       director_id: {
         required: true
       },
+      movie_image: {
+        extension: "jpg|jpeg|png|gif"
+      }, 
       duplicate_movie: {  
           movie_already_exists: true
       },
@@ -27,6 +30,7 @@ $(document).ready(function () {
     messages: {
         movie_name: "No movie name specified",
         director_id: "No director selected",
+        movie_image: "Permissible extensions are: jpg, jpeg, png or gif",
         duplicate_movie: "Movie with same name and director already exists",
         director_name: "No director name specified",
     },
