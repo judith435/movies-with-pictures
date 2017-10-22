@@ -64,6 +64,9 @@ var generalMovie = (function() {
         if(htmlTitle == "Create Movie"){
             formData = new FormData();    
             var form_data = $('form').serialize();
+            //because of movie image upload new FormData() must be used to send data to server and thus it can no longer be sent simply as $('form').serialize() 
+            //the  individual input fields must be appeded to FormData() as key value pairs => statement below creates object from $('form').serialize() containing
+            //key value pairs of input data  
             var form_data_pairs = JSON.parse('{"' + decodeURI(form_data.replace(/&/g, "\",\"").replace(/=/g,"\":\"")) + '"}')
             for (var key in form_data_pairs) {
                 if (form_data_pairs.hasOwnProperty(key)) {
@@ -82,8 +85,6 @@ var generalMovie = (function() {
             formData = $('form').serialize();
         }
     
-        var hook =5;
-
         $.ajax({
             type: verb,
             url:  app.movieApi,

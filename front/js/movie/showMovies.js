@@ -47,31 +47,43 @@ var showMovies = (function() {
                         template = template.replace("{{director_id}}", moviesArray[i].director_id);
                         template = template.replace("{{director_name}}", moviesArray[i].director_name);
                         $('#movies').append(template);
+                        //check if image exists for movie if yes create bootstrap modal to display image
                         $.ajax({
-                            type: 'HEAD',
-                            url: 'http://localhost/joint/movies-with-pictures/back/uploads/image_for_movie_id_' 
-                                    +  moviesArray[i].movie_id +'.jpg',
+                            type: 'HEAD', //test for jpg
+                            url: movie_link    +  moviesArray[i].movie_id +'.jpg',
                             success: function() {  
-                               var movieID =  moviesArray[i].movie_id;
-                               var movieTitleMV = "Movie ID: " + moviesArray[i].movie_id + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Movie Name: " + moviesArray[i].movie_name;
-                               var movieTitleDIR = "Director ID: " + moviesArray[i].director_id + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Director Name: " + moviesArray[i].director_name;
-                               var link_button =  '<a id="linkMovieImage' + movieID + '" data-toggle="modal" data-target="#modalMovieImage' + movieID + '" >View Movie Image</a>';
-                               var modal = '<div id="modalMovieImage' + movieID + '" class="modal fade" role="dialog">';    
-                               modal +=         '<div class="modal-dialog"><div class="modal-content">'; 
-                               modal +=             '<div class="modal-header">'; 
-                               modal +=                 '<button type="button" class="close" data-dismiss="modal">&times;</button>'; 
-                               modal +=                 '<h5 class="modal-title">' + movieTitleMV + '</h5>'; 
-                               modal +=                 '<h5 class="modal-title">' + movieTitleDIR + '</h5>'; 
-                               modal +=             '</div>';
-                               modal +=             '<div class="modal-body">';
-                               modal +=                 '<img class="img-responsive" src="' + movie_link +  movieID + '.jpg">'; 
-                               modal +=             '</div>'; 
-                               modal +=    '</div></div></div>';
-                               $("tbody  > tr  > td.movie-image-link").eq(i).append(link_button);
-                               $("tbody  > tr  > td.movie-image-link").eq(i).append(modal); 
+                                buildMovieImageLink(i, moviesArray[i], movie_link,'.jpg');
                                 },
-                            error: function() {
-                               // $("tbody  > tr  > td.movie-image-link").eq(i).text("no image found for movie");                     
+                            error: function() { 
+                                $.ajax({
+                                    type: 'HEAD', //test for jpeg
+                                    url: movie_link  +  moviesArray[i].movie_id +'.jpeg',
+                                    success: function() {  
+                                        buildMovieImageLink(i, moviesArray[i], movie_link,'.jpeg');
+                                        },
+                                    error: function() {
+                                        $.ajax({
+                                            type: 'HEAD', //test for png
+                                            url: movie_link  +  moviesArray[i].movie_id +'.png',
+                                            success: function() {  
+                                                buildMovieImageLink(i, moviesArray[i], movie_link,'.png');
+                                                },
+                                            error: function() {
+                                                $.ajax({
+                                                    type: 'HEAD', //test for gif
+                                                    url: movie_link  +  moviesArray[i].movie_id +'.gif',
+                                                    success: function() {  
+                                                        buildMovieImageLink(i, moviesArray[i], movie_link,'.gif');
+                                                        },
+                                                    error: function() {//no movie image found under nay possible suffix
+                                                        
+                                                    // $("tbody  > tr  > td.movie-image-link").eq(i).text("no image found for movie");                     
+                                                    }
+                                                });
+                                            }
+                                        });
+                                    }
+                                });
                             }
                         });
                     }
@@ -87,6 +99,29 @@ var showMovies = (function() {
                 }
         });
     }
+
+    function buildMovieImageLink(tableRowNumber, movieRow, movie_link, imageSuffix)
+    {
+        var movieID =  movieRow.movie_id;
+        var movieTitleMV = "Movie ID: " + movieRow.movie_id + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Movie Name: " + movieRow.movie_name;
+        var movieTitleDIR = "Director ID: " + movieRow.director_id + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Director Name: " + movieRow.director_name;
+        var link_button =  '<a id="linkMovieImage' + movieID + '" data-toggle="modal" data-target="#modalMovieImage' + movieID + '" >View Movie Image</a>';
+        var modal = '<div id="modalMovieImage' + movieID + '" class="modal fade" role="dialog">';    
+        modal +=         '<div class="modal-dialog"><div class="modal-content">'; 
+        modal +=             '<div class="modal-header">'; 
+        modal +=                 '<button type="button" class="close" data-dismiss="modal">&times;</button>'; 
+        modal +=                 '<h5 class="modal-title">' + movieTitleMV + '</h5>'; 
+        modal +=                 '<h5 class="modal-title">' + movieTitleDIR + '</h5>'; 
+        modal +=             '</div>';
+        modal +=             '<div class="modal-body">';
+        modal +=                 '<img class="img-responsive" src="' + movie_link +  movieID + imageSuffix + '">'; 
+        modal +=             '</div>'; 
+        modal +=    '</div></div></div>';
+        $("tbody  > tr  > td.movie-image-link").eq(tableRowNumber).append(link_button);
+        $("tbody  > tr  > td.movie-image-link").eq(tableRowNumber).append(modal); 
+
+    }
+
 
     return {
         showMovies: showMovies 
