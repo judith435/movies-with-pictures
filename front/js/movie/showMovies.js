@@ -52,26 +52,26 @@ var showMovies = (function() {
                             url: 'http://localhost/joint/movies-with-pictures/back/uploads/image_for_movie_id_' 
                                     +  moviesArray[i].movie_id +'.jpg',
                             success: function() {  
-                               // $("tbody  > tr  #linkMovieImage").eq(i).attr("href", movie_link +  moviesArray[i].movie_id + ".jpg");
-                               var modal_movie_image = "modalMovieImage" + moviesArray[i].movie_id;
-                               $("tbody  > tr  #linkMovieImage").eq(i).attr('data-target', "#" + modal_movie_image);
-                               $("tbody  > tr  #modalMovieImage").eq(i).attr('id', modal_movie_image);
-                               $("#imgMovieImage").attr("src", movie_link +  moviesArray[i].movie_id + ".jpg");
-                               $("#modalTitleMovieImage")
-                                    .text("Movie ID: " + moviesArray[i].movie_id + "    Movie Name: " + moviesArray[i].movie_name +
-                                      "    Director ID: " + moviesArray[i].director_id + "    Director Name: " + moviesArray[i].director_name);
-                                // $("tbody  > tr  #imgMovieImage").eq(i).attr('id', modal_movie_image);
-                                // $("tbody  > tr  #imgMovieImage").eq(i).attr("src", movie_link +  moviesArray[i].movie_id + ".jpg");
-                                // $("tbody  > tr  #modalTitleMovieImage").eq(i)
-                                // .text("Movie ID: " + moviesArray[i].movie_id + "    Movie Name: " + moviesArray[i].movie_name +
-                                //         "    Director ID: " + moviesArray[i].director_id + "    Director Name: " + moviesArray[i].director_name);
+                               var movieID =  moviesArray[i].movie_id;
+                               var movieTitleMV = "Movie ID: " + moviesArray[i].movie_id + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Movie Name: " + moviesArray[i].movie_name;
+                               var movieTitleDIR = "Director ID: " + moviesArray[i].director_id + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Director Name: " + moviesArray[i].director_name;
+                               var link_button =  '<a id="linkMovieImage' + movieID + '" data-toggle="modal" data-target="#modalMovieImage' + movieID + '" >View Movie Image</a>';
+                               var modal = '<div id="modalMovieImage' + movieID + '" class="modal fade" role="dialog">';    
+                               modal +=         '<div class="modal-dialog"><div class="modal-content">'; 
+                               modal +=             '<div class="modal-header">'; 
+                               modal +=                 '<button type="button" class="close" data-dismiss="modal">&times;</button>'; 
+                               modal +=                 '<h5 class="modal-title">' + movieTitleMV + '</h5>'; 
+                               modal +=                 '<h5 class="modal-title">' + movieTitleDIR + '</h5>'; 
+                               modal +=             '</div>';
+                               modal +=             '<div class="modal-body">';
+                               modal +=                 '<img class="img-responsive" src="' + movie_link +  movieID + '.jpg">'; 
+                               modal +=             '</div>'; 
+                               modal +=    '</div></div></div>';
+                               $("tbody  > tr  > td.movie-image-link").eq(i).append(link_button);
+                               $("tbody  > tr  > td.movie-image-link").eq(i).append(modal); 
                                 },
                             error: function() {
-                               // $("tbody  > tr  #linkMovieImage").eq(i).hide();
-                               $("tbody  > tr  #linkMovieImage").eq(i).on("click", function (e) {
-                                    e.preventDefault();
-                                });
-                                $("tbody  > tr  #linkMovieImage").eq(i).text("no image found for movie"); 
+                               // $("tbody  > tr  > td.movie-image-link").eq(i).text("no image found for movie");                     
                             }
                         });
                     }
