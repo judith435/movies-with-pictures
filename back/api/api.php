@@ -36,6 +36,8 @@
         case 'director':
             $dir_api = new DirectorApi();
             $response = $dir_api->gateway($method, $params);
+            $t = json_encode($response);
+            
             echo json_encode($response);
             break;
     }
